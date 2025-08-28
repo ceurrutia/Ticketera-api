@@ -48,7 +48,7 @@ public class ConsultaService {
                 .map(this::convertirADTO);
     }
 
-    // Mapper privado
+    // Mapper conv dto
     private ConsultaDTO convertirADTO(Consulta consulta) {
         return new ConsultaDTO(
                 consulta.getId(),

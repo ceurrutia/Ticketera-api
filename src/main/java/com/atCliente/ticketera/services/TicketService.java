@@ -33,8 +33,6 @@ public class TicketService {
 
     // Crear un ticket (recibe entidad, devuelve DTO)
     public TicketDTO crearTicket(TicketDTO ticketDTO) {
-        // Aquí deberías buscar el cliente y la consulta en sus repositorios
-        // Por ejemplo:
         Cliente cliente = clienteRepository.findByDni(ticketDTO.getClienteDni())
                 .orElseThrow(() -> new RuntimeException("Cliente no encontrado"));
 
