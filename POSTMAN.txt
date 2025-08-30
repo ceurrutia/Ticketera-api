@@ -1,0 +1,91 @@
+Flujo completo de prueba en Postman:
+
+Crear cliente → POST /api/clientes
+
+Crear consulta → POST /api/consultas
+
+Crear ticket → POST /api/tickets
+
+Tomar ticket de la cola → POST /api/cola/tomar
+
+Ver pendientes → GET /api/cola/pendientes
+
+
+clientes
+[
+    {
+        "id": 1,
+        "nombre": "Jaks Urrutia",
+        "dni": "0098877",
+        "email": "jacks@example.com"
+    },
+    {
+        "id": 2,
+        "nombre": "Urrutia Lois",
+        "dni": "0076543",
+        "email": "jlois@example.com"
+    },
+    {
+        "id": 3,
+        "nombre": "Moratalaz",
+        "dni": "99887766",
+        "email": "morat@example.com"
+    },
+    {
+        "id": 4,
+        "nombre": "alastor moody",
+        "dni": "3465332",
+        "email": "al@moody.com"
+    }
+]
+
+
+FLUJO
+
+POST /api/tickets
+
+**Body JSON:**
+```json
+{
+  "clienteDni": "0098877",
+  "tipoConsulta": "CUENTAS"
+}
+
+
+Obtener todos los tickets
+
+GET /api/tickets
+
+
+Obtener ticket por ID
+
+GET /api/tickets/{id}
+
+
+Cambiar estado de ticket
+
+PATCH /api/tickets/{id}/estado
+
+
+Body JSON:
+
+{
+  "estado": "EN_PROCESO"
+}
+
+Cola de tickets
+
+Agregar ticket a la cola
+
+POST /api/cola/agregar/{ticketId}
+
+
+Tomar siguiente ticket
+
+POST /api/cola/tomar
+
+
+Ver cantidad de tickets pendientes en la cola
+
+GET /api/cola/pendientes
+

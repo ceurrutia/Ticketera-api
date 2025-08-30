@@ -16,6 +16,12 @@ public class TicketDTO {
     private Date fechaHora;
     private Estado estado;
 
+    //constructor vacio
+    public TicketDTO() {
+    }
+
+    //constructor con parametros
+
     public TicketDTO(Long id, String clienteNombre, String clienteDni, String clienteEmail,
                      Tipo_consulta tipoConsulta, Date fechaHora, Estado estado) {
         this.id = id;

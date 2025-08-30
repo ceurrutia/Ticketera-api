@@ -5,6 +5,7 @@ import com.atCliente.ticketera.entitys.Cliente;
 import com.atCliente.ticketera.entitys.Consulta;
 import com.atCliente.ticketera.entitys.Ticket;
 import com.atCliente.ticketera.enums.Estado;
+import com.atCliente.ticketera.enums.Tipo_consulta;
 import com.atCliente.ticketera.respository.ClienteRepository;
 import com.atCliente.ticketera.respository.ConsultaRepository;
 import com.atCliente.ticketera.respository.TicketRepository;
@@ -33,12 +34,29 @@ public class TicketService {
 
     // Crear un ticket (recibe entidad, devuelve DTO)
     public TicketDTO crearTicket(TicketDTO ticketDTO) {
-        Cliente cliente = clienteRepository.findByDni(ticketDTO.getClienteDni())
-                .orElseThrow(() -> new RuntimeException("Cliente no encontrado"));
+        // Normalizar DNI
+        String dniNormalizado = ticketDTO.getClienteDni().trim();
 
-        Consulta consulta = consultaRepository.findByTipoConsulta(ticketDTO.getTipoConsulta())
+        // Imprimir todos los clientes de la DB
+        List<Cliente> todosClientes = clienteRepository.findAll();
+
+        // Buscar cliente
+        Cliente cliente = clienteRepository.findByDni(dniNormalizado)
+                .orElseThrow(() -> new RuntimeException("Cliente no registrado"));
+
+        // Normalizar tipo de consulta
+        Tipo_consulta tipo = ticketDTO.getTipoConsulta();
+
+        // Buscar consulta de manera segura
+        List<Consulta> todasConsultas = consultaRepository.findAll();
+
+               Consulta consulta = todasConsultas.stream()
+                .filter(c -> c.getTipoConsulta() != null &&
+                        c.getTipoConsulta().name().equalsIgnoreCase(tipo.name()))
+                .findFirst()
                 .orElseThrow(() -> new RuntimeException("Consulta no encontrada"));
 
+        // Crear ticket
         Ticket ticket = new Ticket();
         ticket.setCliente(cliente);
         ticket.setConsulta(consulta);
@@ -46,8 +64,11 @@ public class TicketService {
         ticket.setEstado(ticketDTO.getEstado());
 
         Ticket nuevoTicket = ticketRepository.save(ticket);
+        System.out.println("Ticket creado con id=" + nuevoTicket.getId());
+
         return convertirADTO(nuevoTicket);
     }
+
 
     //Todos los tickets
     public List<TicketDTO> obtenerTodos() {
@@ -68,6 +89,14 @@ public class TicketService {
     public TicketDTO actualizarTicket(Ticket ticket) {
         Ticket actualizado = ticketRepository.save(ticket);
         return convertirADTO(actualizado);
+    }
+
+    //obtener pednientes
+    public List<TicketDTO> obtenerTicketsPendientes() {
+        return ticketRepository.findAll().stream()
+                .filter(t -> t.getEstado() == Estado.EN_ESPERA) // lossolo pendientes
+                .map(this::convertirADTO)
+                .collect(Collectors.toList());
     }
 
     // MAPPERS

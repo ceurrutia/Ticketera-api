@@ -3,14 +3,14 @@ package com.atCliente.ticketera.DTO;
 public class ClienteDTO {
     private Long id;
     private String nombre;
-    private int dni;
+    private String dni;
     private String email;
 
     // Constructor vacío
     public ClienteDTO() {}
 
     // Constructor con parámetros
-    public ClienteDTO(Long id, String nombre, int dni, String email) {
+    public ClienteDTO(Long id, String nombre, String dni, String email) {
         this.id = id;
         this.nombre = nombre;
         this.dni = dni;
@@ -34,11 +34,11 @@ public class ClienteDTO {
         this.nombre = nombre;
     }
 
-    public int getDni() {
+    public String getDni() {
         return dni;
     }
 
-    public void setDni(int dni) {
+    public void setDni(String dni) {
         this.dni = dni;
     }
 

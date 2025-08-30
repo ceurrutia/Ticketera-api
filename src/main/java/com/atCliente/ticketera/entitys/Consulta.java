@@ -11,6 +11,7 @@ public class Consulta {
     private Long id;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "tipo_consulta")
     private Tipo_consulta tipoConsulta;
 
     //constructor vacio

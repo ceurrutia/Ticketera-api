@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Ticket Creado</title>
+  <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+</head>
+<body>
+<div class="container mt-5">
+  <div class="card shadow-lg">
+    <div class="card-header bg-primary text-white text-center">
+      <h4>Tu Turno</h4>
+    </div>
+    <div class="card-body">
+      <p><strong>ID Ticket:</strong> <span th:text="${ticket.id}"></span></p>
+      <p><strong>Nombre:</strong> <span th:text="${ticket.clienteNombre}"></span></p>
+      <p><strong>DNI:</strong> <span th:text="${ticket.clienteDni}"></span></p>
+      <p><strong>Consulta:</strong> <span th:text="${ticket.tipoConsulta}"></span></p>
+      <p><strong>Estado:</strong> <span th:text="${ticket.estado}"></span></p>
+      <p><strong>Fecha/Hora:</strong> <span th:text="${ticket.fechaHora}"></span></p>
+      <a href="/" class="btn btn-success mt-3">Volver</a>
+    </div>
+  </div>
+</div>
+</body>
+</html>
