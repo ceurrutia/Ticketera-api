@@ -13,19 +13,24 @@ public class Ticket {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(name = "cliente_id")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "cliente_id", nullable = false)
     private Cliente cliente;
 
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(name = "consulta_id")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "consulta_id", nullable = false)
     private Consulta consulta;
+
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date fecha_hora;
 
     @Enumerated(EnumType.STRING)
     private Estado estado;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "box_id")
+    private Box box;
 
     //constructor vacio
     public Ticket() {
@@ -79,5 +84,13 @@ public class Ticket {
 
     public void setEstado(Estado estado) {
         this.estado = estado;
+    }
+
+    public Box getBox() {
+        return box;
+    }
+
+    public void setBox(Box box) {
+        this.box = box;
     }
 }

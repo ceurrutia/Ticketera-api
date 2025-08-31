@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Administración de Turnos</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+</head>
+<body>
+<div class="container mt-5">
+    <h2 class="mb-4">Administración de Tickets</h2>
+
+    <table class="table table-hover">
+        <thead class="table-primary">
+        <tr>
+            <th>ID</th>
+            <th>Cliente</th>
+            <th>DNI</th>
+            <th>Email</th>
+            <th>Tipo Consulta</th>
+            <th>Fecha y Hora</th>
+            <th>Estado</th>
+            <th>Box</th>
+            <th>Acción</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="ticket : ${tickets}">
+            <td th:text="${ticket.id}"></td>
+            <td th:text="${ticket.clienteNombre}"></td>
+            <td th:text="${ticket.clienteDni}"></td>
+            <td th:text="${ticket.clienteEmail}"></td>
+            <td th:text="${ticket.tipoConsulta}"></td>
+            <td th:text="${#dates.format(ticket.fechaHora, 'dd/MM/yyyy HH:mm')}"></td>
+
+            <td th:switch="${ticket.estado}">
+                <span th:case="'EN_ESPERA'" class="badge bg-warning text-dark" th:text="${ticket.estado}"></span>
+                <span th:case="'EN_PROCESO'" class="badge bg-info text-dark" th:text="${ticket.estado}"></span>
+                <span th:case="'ATENDIDO'" class="badge bg-success text-light" th:text="${ticket.estado}"></span>
+                <span th:case="'FINALIZADO'" class="badge bg-danger text-light" th:text="${ticket.estado}"></span>
+                <span th:case="*" class="badge bg-secondary text-light" th:text="${ticket.estado}"></span>
+            </td>
+
+            <td th:text="${ticket.box?.type ?: '-'}"></td>
+
+            <td>
+                <form th:action="@{/admin/cola/actualizar-estado}" method="post" class="d-flex mb-2">
+                    <input type="hidden" name="ticketId" th:value="${ticket.id}"/>
+                    <select name="nuevoEstado" class="form-select form-select-sm me-2">
+                        <option th:value="EN_ESPERA" th:selected="${ticket.estado} == 'EN_ESPERA'">EN_ESPERA</option>
+                        <option th:value="EN_PROCESO" th:selected="${ticket.estado} == 'EN_PROCESO'">EN_PROCESO</option>
+                        <option th:value="ATENDIDO" th:selected="${ticket.estado} == 'ATENDIDO'">ATENDIDO</option>
+                        <option th:value="FINALIZADO" th:selected="${ticket.estado} == 'FINALIZADO'">FINALIZADO</option>
+                    </select>
+                    <button type="submit" class="btn btn-sm btn-primary">Actualizar</button>
+                </form>
+
+                <form th:action="@{/admin/cola/asignar-box}" method="post" class="d-flex">
+                    <input type="hidden" name="ticketId" th:value="${ticket.id}"/>
+                    <select name="boxId" class="form-select form-select-sm me-2">
+                        <option value="">Asignar Box</option>
+                        <option th:each="box : ${boxes}" th:value="${box.id}" th:text="${box.type}"></option>
+                    </select>
+                    <button type="submit" class="btn btn-sm btn-success">Asignar</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

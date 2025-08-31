@@ -3,15 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <title>Turnos</title>
-
-    <!-- Bootstrap Flatly -->
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
 </head>
 <body>
-
 <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-6">
+
+            <!-- ALERTA DE ERROR SI EXISTE -->
+            <div th:if="${error}" class="alert alert-danger" role="alert">
+                <span th:text="${error}"></span>
+            </div>
 
             <div class="card shadow-lg">
                 <div class="card-header bg-primary text-white text-center">
@@ -20,18 +22,30 @@
                 <div class="card-body">
                     <form th:action="@{/turnos}" method="post">
                         <div class="mb-3">
-                            <label for="nombre" class="form-label">Nombre completo</label>
-                            <input type="text" id="nombre" name="nombre" class="form-control" required>
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" id="email" name="email" class="form-control" required>
                         </div>
-
                         <div class="mb-3">
                             <label for="dni" class="form-label">DNI</label>
-                            <input type="text" id="dni" name="dni" class="form-control" required>
+                            <input type="text"
+                                   id="dni"
+                                   name="dni"
+                                   class="form-control"
+                                   required
+                                   minlength="8"
+                                   maxlength="8"
+                                   title="El DNI debe tener exactamente 8 caracteres.">
                         </div>
-
-                        <div class="d-grid">
-                            <button type="submit" class="btn btn-success">Sacar Turno</button>
+                        <div class="mb-3">
+                            <label for="tipoConsulta" class="form-label">Tipo de Consulta</label>
+                            <select id="tipoConsulta" name="tipoConsulta" class="form-select" required>
+                                <option th:each="tipo : ${tiposConsulta}"
+                                        th:value="${tipo}"
+                                        th:text="${tipo}">
+                                </option>
+                            </select>
                         </div>
+                        <button type="submit" class="btn btn-success">Sacar Turno</button>
                     </form>
                 </div>
             </div>
@@ -39,6 +53,5 @@
         </div>
     </div>
 </div>
-
 </body>
 </html>

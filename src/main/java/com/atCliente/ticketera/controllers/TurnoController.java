@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Date;
 
@@ -21,30 +22,40 @@ public class TurnoController {
         this.ticketService = ticketService;
     }
 
-    @GetMapping("/turnos")
-    public String mostrarForm() {
+
+    @GetMapping("/")
+    public String mostrarForm(Model model) {
+        model.addAttribute("ticketDTO", new TicketDTO());
+        model.addAttribute("tiposConsulta", Tipo_consulta.values());
         return "index";
     }
 
     @PostMapping("/turnos")
-    public String sacarTurno(@RequestParam String nombre,
+    public String sacarTurno(@RequestParam String email,
                              @RequestParam String dni,
-                             Model model) {
+                             @RequestParam Tipo_consulta tipoConsulta,
+                             Model model, RedirectAttributes redirectAttributes) {
+
+        if (dni.trim().length() != 8) {
+            redirectAttributes.addFlashAttribute("error",
+                    "El DNI debe tener exactamente 8 caracteres.");
+            return "redirect:/";
+        }
+
 
         TicketDTO ticketDTO = new TicketDTO();
-        ticketDTO.setClienteNombre(nombre);
+        ticketDTO.setClienteEmail(email);
         ticketDTO.setClienteDni(dni.trim());
         ticketDTO.setFechaHora(new Date());
         ticketDTO.setEstado(Estado.EN_ESPERA);
-        ticketDTO.setTipoConsulta(Tipo_consulta.CUENTAS);
+        ticketDTO.setTipoConsulta(tipoConsulta);
         System.out.println("DNI recibido: '" + ticketDTO.getClienteDni() + "'");
+
         try {
-            //ojo que aca falla si el cliente no esta registrado en el sistema
-            TicketDTO creado = ticketService.crearTicket(ticketDTO);
-            model.addAttribute("ticket", creado);
-            return "ticket"; //renderiza la pag ticket
+            ticketService.crearTicket(ticketDTO);
+            return "redirect:/cola";
         } catch (RuntimeException e) {
-            //error
+            redirectAttributes.addFlashAttribute("error", "Cliente no registrado: " + dni);
             model.addAttribute("error", "Cliente no registrado: " + dni);
             return "error-turno";
         }

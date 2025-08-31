@@ -1,6 +1,7 @@
 package com.atCliente.ticketera.entitys;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "clientes")
@@ -10,6 +11,8 @@ public class Cliente {
     private Long id;
 
     private String nombre;
+
+    @Size(min = 8, max = 8, message = "El DNI debe tener exactamente 8 dígitos")
     private String dni;
     private String email;
 

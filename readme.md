@@ -8,6 +8,7 @@ API para gestión de tickets de clientes con soporte de **cola de atención**. P
 - Spring Boot 3
 - Hibernate / JPA
 - MySQL
+- Actuator
 - Postman (para pruebas)
 - Mermaid (diagramas en GitHub)
 - Dotenv (variables de entorno)
@@ -63,3 +64,4 @@ Las configuraciones sensibles, como credenciales de la base de datos, se manejan
 * POST /api/cola/tomar se queda bloqueado si la cola está vacía hasta que se agregue un ticket.
 * Se utiliza DTO para no exponer directamente las entidades en los endpoints.
 * Variables sensibles como la conexión a la base de datos se cargan mediante dotenv.
+* Pantallas en Thymeleaf, HTML usando theme Flatly Boostwatch basado en Bootstrap 5.

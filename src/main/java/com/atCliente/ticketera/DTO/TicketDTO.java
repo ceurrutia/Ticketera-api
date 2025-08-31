@@ -4,6 +4,7 @@ import com.atCliente.ticketera.enums.Estado;
 import com.atCliente.ticketera.enums.Tipo_consulta;
 
 import java.util.Date;
+import java.util.Objects;
 
 public class TicketDTO {
     private Long id;
@@ -15,6 +16,7 @@ public class TicketDTO {
     private Tipo_consulta tipoConsulta;
     private Date fechaHora;
     private Estado estado;
+    private BoxDTO box;
 
     //constructor vacio
     public TicketDTO() {
@@ -23,7 +25,7 @@ public class TicketDTO {
     //constructor con parametros
 
     public TicketDTO(Long id, String clienteNombre, String clienteDni, String clienteEmail,
-                     Tipo_consulta tipoConsulta, Date fechaHora, Estado estado) {
+                     Tipo_consulta tipoConsulta, Date fechaHora, Estado estado, BoxDTO box) {
         this.id = id;
         this.clienteNombre = clienteNombre;
         this.clienteDni = clienteDni;
@@ -31,6 +33,7 @@ public class TicketDTO {
         this.tipoConsulta = tipoConsulta;
         this.fechaHora = fechaHora;
         this.estado = estado;
+        this.box = box;
     }
 
     //Getters y setters
@@ -89,5 +92,27 @@ public class TicketDTO {
 
     public void setEstado(Estado estado) {
         this.estado = estado;
+    }
+
+    public BoxDTO getBox() {
+        return box;
+    }
+
+    public void setBox(BoxDTO box) {
+        this.box = box;
+    }
+
+    //metodos override
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TicketDTO ticketDTO = (TicketDTO) o;
+        return Objects.equals(id, ticketDTO.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

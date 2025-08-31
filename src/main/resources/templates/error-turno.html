@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Error solicitando turno</title>
@@ -10,8 +10,12 @@
 <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-6">
-            <div class="alert alert-danger" role="alert">
-                [[${error}]]
+            <div class="alert alert-danger" role="alert" th:text="${error}">
+                <!-- Si no hay error en el modelo, este texto no aparece -->
+                Ha ocurrido un error solicitando el turno.
+            </div>
+            <div class="mt-3 text-center">
+                <a href="/" class="btn btn-primary">Volver al inicio</a>
             </div>
         </div>
     </div>
