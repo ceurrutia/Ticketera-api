@@ -52,4 +52,16 @@ public class AdminTicketController {
         ticketService.cambiarEstado(ticketId, nuevoEstado);
         return "redirect:/admin/cola";
     }
+    //busca tckets por dni
+    @GetMapping("/admin/cola/buscar")
+    public String buscarTicketsPorDni(@RequestParam("dni") String dni, Model model) {
+        List<TicketDTO> tickets = ticketService.buscarTicketsPorDni(dni);
+        List<BoxDTO> todosLosBoxes = boxService.obtenerTodosLosBoxes();
+
+        model.addAttribute("tickets", tickets);
+        model.addAttribute("boxes", todosLosBoxes);
+        model.addAttribute("dniBuscado", dni);
+
+        return "admin-cola";
+    }
 }

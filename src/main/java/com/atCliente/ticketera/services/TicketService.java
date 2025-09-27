@@ -35,6 +35,13 @@ public class TicketService {
         this.boxService = boxService;
     }
 
+    //busca tickest por dni
+    public List<TicketDTO> buscarTicketsPorDni(String dni) {
+        return ticketRepository.findByCliente_Dni(dni).stream()
+                .map(this::convertirADTO)
+                .collect(Collectors.toList());
+    }
+
     // Crear un ticket (recibe entidad, devuelve DTO)
     public TicketDTO crearTicket(TicketDTO ticketDTO) {
         //normalizar DNI con trim

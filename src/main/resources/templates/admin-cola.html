@@ -9,6 +9,23 @@
 <div class="container mt-5">
     <h2 class="mb-4">Administración de Tickets</h2>
 
+    <!-- búsqueda por DNI -->
+    <form th:action="@{/admin/cola/buscar}" method="get" class="row g-3 mb-4">
+        <div class="col-auto">
+            <input type="text" name="dni" class="form-control" placeholder="Ingrese DNI del cliente" required>
+        </div>
+        <div class="col-auto">
+            <button type="submit" class="btn btn-primary mb-3">Buscar</button>
+            <a th:href="@{/admin/cola}" class="btn btn-secondary mb-3">Limpiar</a>
+        </div>
+    </form>
+
+    <!--DNI, mostrar -->
+    <div th:if="${dniBuscado}" class="alert alert-info">
+        Resultados para DNI: <strong th:text="${dniBuscado}"></strong>
+    </div>
+
+    <!-- Tabla de tickets -->
     <table class="table table-hover">
         <thead class="table-primary">
         <tr>

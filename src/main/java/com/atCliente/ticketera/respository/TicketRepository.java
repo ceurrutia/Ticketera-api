@@ -11,5 +11,6 @@ import java.util.List;
 public interface TicketRepository extends JpaRepository<Ticket, Long> {
     @Query("SELECT t FROM Ticket t LEFT JOIN FETCH t.box")
     List<Ticket> findAllWithBoxes();
+    List<Ticket> findByCliente_Dni(String dni);
 
 }
